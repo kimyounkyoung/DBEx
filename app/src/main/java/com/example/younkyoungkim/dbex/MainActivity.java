@@ -60,8 +60,13 @@ public class MainActivity extends AppCompatActivity {
                 String names="Idol 이름"+"\r\n"+"==========="+"\r\n";
                 String counts="Idol 인원수"+"\r\n"+"==========="+"\r\n";
                 while (cursor.moveToNext()){
-
+                    names += cursor.getString(0)+ "\r\n";  //+= 연결연산자(데이터 연결)
+                    counts += cursor.getInt(1)+"\r\n";
                 }
+                editResultName.setText(names);
+                editResultCount.setText(counts);
+                cursor.close();
+                sqlDB.close();
             }
         });
     }
@@ -74,13 +79,13 @@ public class MainActivity extends AppCompatActivity {
         // idolTable이라는 이름의 테이블 생성
         @Override
         public void onCreate(SQLiteDatabase sqLiteDatabase){
-            String sql="craete table idolTable(idolName text not null primary key, idolCount integer)";
+            String sql="create table idolTable(idolName text not null primary key, idolCount integer)";
             sqLiteDatabase.execSQL(sql);   //변경을 위해 execSQL을 쓴다.
         }
         //이미 idolTable이 존재한다면 기존의 테이블을 삭제하고 새로 테이블을 만들 때 호출
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            String sql="drop table if exist idolTable";
+            String sql="drop table if exists idolTable";
             db.execSQL(sql);
             onCreate(db);
         }
